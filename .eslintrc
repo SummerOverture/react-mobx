@@ -1,0 +1,66 @@
+{
+    "root": true,
+    "parserOptions": {
+        "arrowFunctions": true,
+        "ecmaVersion": 6,
+        "sourceType": "module"
+    },
+    "env": {
+        "node": true
+    },
+    "plugins": [
+        "react",
+        "jsx"
+    ],
+    "extends": "airbnb-base",
+    "globals": {
+        "require": true
+    },
+    "rules": {
+        "no-debugger": 2,
+        "arrow-parens": [
+            "error",
+            "always",
+            {
+                "requireForBlockBody": true
+            }
+        ],
+        "consistent-return": "off",
+        "no-nested-ternary": "off",
+        "no-restricted-syntax": [
+            "error",
+            "ForInStatement",
+            "LabeledStatement",
+            "WithStatement"
+        ],
+        "no-plusplus": "off",
+        "no-param-reassign": 0,
+        "no-else-return": "off",
+        "no-underscore-dangle": "off",
+        "no-irregular-whitespace": [
+            "error",
+            {
+                "skipComments": true
+            }
+        ],
+        "global-require": "off",
+        "import/no-dynamic-require": "off",
+        "max-len": [
+            "error",
+            150,
+            2,
+            {
+                "ignoreUrls": true,
+                "ignoreComments": false,
+                "ignoreRegExpLiterals": true,
+                "ignoreStrings": true,
+                "ignoreTemplateLiterals": true
+            }
+        ],
+        "radix": [
+            "error",
+            "as-needed"
+        ],
+        "no-multi-spaces": 1
+    }
+}

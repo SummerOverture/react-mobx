@@ -1,0 +1,27 @@
+@import "./index.scss";
+
+:global(.text-center) {
+  text-align: center;
+}
+
+:global(.text-left) {
+  text-align: left;
+}
+
+:global(.text-right) {
+  text-align: right;
+}
+
+
+
+.a {
+  background: red;
+}
+
+body {
+  background: #ededed;
+
+  .App-logo {
+    height: 50px;
+  }
+}

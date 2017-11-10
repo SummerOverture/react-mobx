@@ -1,0 +1,11 @@
+$containerMaxWidth: 20px;
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "PingFang CN";
+}
+
+body {
+  font-size: $containerMaxWidth;
+}
