@@ -13,7 +13,6 @@ function resolve(dir) {
 module.exports = {
   entry: {
     app: './src/entry.js',
-    vendor: ['babel-polyfill', 'react-dom', 'react-router', 'mobx'],
   },
   output: {
     filename: './static/js/[name].[chunkhash].js',
@@ -36,7 +35,7 @@ module.exports = {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: ['css-loader', 'sass-loader'],
+          use: 'css-loader',
         }),
       },
       {
@@ -84,11 +83,32 @@ module.exports = {
       template: resolve('src/index.html'),
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'common', // Specify the common bundle's name.
+      name: 'vendor', // Specify the common bundle's name.
+      minChunks: ({ resource, count }) => (
+        (resource &&
+          resource.indexOf('node_modules') >= 0 &&
+          resource.match(/\.js$/)) || count >= 2
+      ),
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      async: 'common-in-lazy',
+      minChunks: ({ resource } = {}) => (
+        resource &&
+          resource.includes('node_modules') &&
+          resource.match(/\.js$/)
+      ),
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      async: 'common-css-in-lazy',
+      minChunks: ({ resource } = {}) => (
+        resource &&
+          resource.includes('node_modules') &&
+          resource.match(/\.css$/)
+      ),
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
-      chunks: ['vendor', 'common'],
+      chunks: ['vendor'],
     }),
     new ExtractTextPlugin('static/css/styles.css'),
     new CopyWebpackPlugin([

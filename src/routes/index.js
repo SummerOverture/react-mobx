@@ -27,7 +27,7 @@ const routes = [
         component: asyncComponent(() => import('@/pages/test')),
       }, {
         path: '/topics',
-        component: () => <div>456</div>,
+        component: asyncComponent(() => import('@/pages/topics')),
         route: [{
           name: 'topic A',
           path: '/topics/a',

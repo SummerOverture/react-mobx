@@ -10,8 +10,7 @@ function resolve(dir) {
 
 module.exports = {
   entry: {
-    app: ['babel-polyfill', 'react-hot-loader/patch', './src/entry.js'],
-    vendor: ['react', 'react-router', 'mobx'],
+    app: ['react-hot-loader/patch', './src/entry.js'],
   },
   output: {
     filename: '[name].js',
