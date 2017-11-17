@@ -99,18 +99,13 @@ module.exports = {
       ),
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      async: 'common-css-in-lazy',
-      minChunks: ({ resource } = {}) => (
-        resource &&
-          resource.includes('node_modules') &&
-          resource.match(/\.css$/)
-      ),
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
       chunks: ['vendor'],
     }),
-    new ExtractTextPlugin('static/css/styles.css'),
+    new ExtractTextPlugin({
+      filename: 'static/css/style.css',
+      allChunks: true,
+    }),
     new CopyWebpackPlugin([
       {
         from: resolve('static'),
