@@ -83,13 +83,15 @@ class LayoutDemo extends Component {
               type={ this.state.collapsed ? 'menu-unfold' : 'menu-fold' }
               onClick={ this.toggle }
             />
+            <div style={ { marginLeft: '40px', display: 'inline-block' } }>
+             { breadcrumbItems }
+            </div>
           </Header>
           <Content
             className="layout"
             style={ {
               margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280,
             } }>
-            { breadcrumbItems }
             { this.props.children }
           </Content>
         </Layout>

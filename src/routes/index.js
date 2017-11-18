@@ -18,6 +18,7 @@ class Routes extends Component {
     },
     {
       path: '/',
+      exact: false,
       component: (e) => {
         if (e.location.pathname === '/login' || !this.loginStore.login) {
           return <Redirect to={ {
@@ -32,13 +33,13 @@ class Routes extends Component {
           path: '/about',
           component: asyncComponent(() => import('@/pages/test')),
         }, {
+          name: 'topic A',
+          path: '/topics/:id',
+          component: asyncComponent(() => import('@/pages/topicDetail')),
+        }, {
           path: '/topics',
           component: asyncComponent(() => import('@/pages/topics')),
           route: [{
-            name: 'topic A',
-            path: '/topics/:id',
-            component: asyncComponent(() => import('@/pages/topicDetail')),
-          }, {
             name: 'topic B',
             path: '/topics/asd/:id',
             component: () => (<div>123</div>),
@@ -46,6 +47,7 @@ class Routes extends Component {
         },
       ],
     },
+
   ];
 
   loopChildren(result = [], route) {
@@ -58,7 +60,7 @@ class Routes extends Component {
       result.push(
         <Route key={ index + Math.random() }
                path={ item.path }
-               exact={ item.exact }
+               exact={ typeof item.exact === 'undefined' ? true : item.exact }
                render={ (props) => <item.component children={ child } { ...props } /> }>
         </Route>);
     });
