@@ -5,7 +5,7 @@ import Helmet from 'react-helmet';
 import loginState from '@/store/loginState';
 import { useStrict } from 'mobx';
 import { Provider, observer } from 'mobx-react';
-import asyncImport from '@/components/AsyncImport';
+import Routes from '@/routes';
 
 const stores = {
   commonStore: store,
@@ -36,7 +36,6 @@ class App extends Component {
   render() {
     const AsyncRoutes = () => {
       if (this.state.initial) {
-        const Routes = asyncImport(() => import('./routes'));
         return <Routes />;
       }
       return <Spin />;

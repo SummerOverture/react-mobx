@@ -16,7 +16,7 @@ module.exports = {
   },
   output: {
     filename: './static/js/[name].[chunkhash].js',
-    chunkFilename: './static/js/[chunkhash].js',
+    chunkFilename: './static/js/[name].[chunkhash].js',
     path: resolve('/dist'),
     publicPath: '/',
   },
@@ -91,12 +91,10 @@ module.exports = {
       ),
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      async: 'common-in-lazy',
-      minChunks: ({ resource } = {}) => (
-        resource &&
+      async: true,
+      minChunks: ({ resource }) => resource &&
           resource.includes('node_modules') &&
-          resource.match(/\.js$/)
-      ),
+          resource.match(/\.js$/),
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',

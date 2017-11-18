@@ -1,5 +1,4 @@
 import React from 'react';
-import Login from '@/pages/login';
 import asyncComponent from '@/components/AsyncImport';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 
@@ -8,7 +7,7 @@ import loginStore from '@/store/loginState';
 const routes = [
   {
     path: '/login',
-    component: Login,
+    component: asyncComponent(() => import('@/pages/login')),
   },
   {
     path: '/',
@@ -49,10 +48,10 @@ const loopChildren = (result = [], route) => {
     if (item.route && item.route.length) {
       child = loopChildren([], item.route);
     }
-    result.push(<Route key={index + Math.random()}
-                       path={item.path}
-                       exact={item.exact}
-                       render={(props) => <item.component children={child} {...props} />
+    result.push(<Route key={ index + Math.random() }
+                       path={ item.path }
+                       exact={ item.exact }
+                       render={ (props) => <item.component children={ child } { ...props } />
                        }>
     </Route>);
   });
