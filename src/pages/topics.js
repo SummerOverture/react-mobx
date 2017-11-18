@@ -1,21 +1,54 @@
 import React, { Component } from 'react';
 import api from '@/api/getData';
-import { action, observable } from 'mobx';
+import { action, computed, runInAction, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { Button, Popconfirm, Table } from 'antd';
 
 class DataSourceStore {
-  @observable dataSource = [];
+  @observable data = [];
   @observable title = '123';
+  @observable loading = false;
 
   @action
-  removeIndex(index) {
-    console.log(index);
+  async removeIndex(index) {
+    this.title += 1;
+    await this.startLoading();
+
+    runInAction(() => {
+      this.data.splice(index, 1);
+    });
+  }
+
+  async startLoading() {
+    this.loading = true;
+    await new Promise((res) => {
+      setTimeout(() => {
+        res();
+      }, 1500);
+    });
+    runInAction(() => {
+      this.loading = false;
+    });
+  }
+
+  @computed
+  get dataSource() {
+    return this.data.slice();
   }
 
   @action
   setData(value) {
-    this.dataSource = value;
+    this.data = value;
+  }
+
+  @action
+  addData() {
+    this.data = this.data.concat({
+      key: this.data.length + 1,
+      name: ['Yang lu', 'li qi', 'he mei'][parseInt(Math.random() * 3)],
+      age: this.data.length + 1,
+      address: 'fsdfsdhklaskl',
+    });
   }
 }
 
@@ -26,7 +59,7 @@ class DeleteIcon extends Component {
   render() {
     return (
       <Popconfirm title="Are you sure u mast delete it?"
-                  onConfirm={ dataSource.removeIndex(1) }
+                  onConfirm={ () => dataSource.removeIndex(this.props.index) }
                   okText="Yes" cancelText="No">
         <Button>Delete</Button>
       </Popconfirm>
@@ -45,33 +78,37 @@ class Test extends Component {
     this.props.history.push(`/topics/${text}`);
   }
 
-  columns = [{
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: (text) => <a onClick={ () => this.navigate(text) }>{ text }</a>,
-  }, {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
-  }, {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-  }, {
-    title: 'Action',
-    key: 'action',
-    render: (text, record, index) => (
-      <DeleteIcon index={ index } />
-    ),
-  }];
+  columns = [
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text) => <a onClick={ () => this.navigate(text) }>{ text }</a>,
+    }, {
+      title: 'Age',
+      dataIndex: 'age',
+      key: 'age',
+    }, {
+      title: 'Address',
+      dataIndex: 'address',
+      key: 'address',
+    }, {
+      title: 'Action',
+      key: 'action',
+      render: (text, record, index) => (
+        <DeleteIcon index={ index } />
+      ),
+    }];
 
   componentDidMount() {
     this.fetchData();
   }
 
+  handleAdd() {
+    this.dataStore.addData();
+  }
+
   fetchData() {
-    console.log(this.dataStore);
     this.dataStore.setData([
       {
         key: '1',
@@ -103,10 +140,8 @@ class Test extends Component {
   render() {
     return (
       <div>
-        <Table columns={ this.columns } dataSource={ this.dataStore.dataSource } />
-        <Button type="error" onClick={ () => this.handleClick() }>
-          { this.dataStore.title }
-        </Button>
+        <Button size="small" onClick={ this.handleAdd.bind(this) }> Add </Button>
+        <Table loading={ this.dataStore.loading } columns={ this.columns } dataSource={ this.dataStore.dataSource } />
       </div>
     );
   }
