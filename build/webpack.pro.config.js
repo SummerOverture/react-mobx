@@ -10,6 +10,12 @@ function resolve(dir) {
   return path.join(__dirname, '..', dir);
 }
 
+const commonLazyChunkName = [
+  'antd',
+  'moment',
+  'rc',
+];
+
 module.exports = {
   entry: {
     app: './src/entry.js',
@@ -76,6 +82,10 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': '"production"',
+      ENABLE_API_PROXY: JSON.stringify(false),
+    }),
     new CleanWebpackPlugin(['dist'], {
       root: resolve(''),
     }),
@@ -84,7 +94,7 @@ module.exports = {
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor', // Specify the common bundle's name.
-      minChunks: ({ resource, count }) => (
+      minChunks: ({ resource }, count) => (
         (resource &&
           resource.indexOf('node_modules') >= 0 &&
           resource.match(/\.js$/)) || count >= 2
@@ -92,9 +102,10 @@ module.exports = {
     }),
     new webpack.optimize.CommonsChunkPlugin({
       async: true,
-      minChunks: ({ resource }) => resource &&
-          resource.includes('node_modules') &&
-          resource.match(/\.js$/),
+      minChunks: ({ resource }, count) => (
+        resource &&
+        resource.includes('node_modules') &&
+        commonLazyChunkName.find((item) => resource.includes(item))) || count >= 2,
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',

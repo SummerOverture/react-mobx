@@ -3086,6 +3086,10 @@ hide-powered-by@1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/hide-powered-by/download/hide-powered-by-1.0.0.tgz#4a85ad65881f62857fc70af7174a1184dccce32b"
 
+highcharts@^6.0.3:
+  version "6.0.3"
+  resolved "http://registry.npm.taobao.org/highcharts/download/highcharts-6.0.3.tgz#51348a0c97d8bdc87cb3b273460e3751db4a51cd"
+
 history@^4.7.2:
   version "4.7.2"
   resolved "http://registry.npm.taobao.org/history/download/history-4.7.2.tgz#22b5c7f31633c5b8021c7f4a8a954ac139ee8d5b"

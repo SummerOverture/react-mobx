@@ -19,7 +19,8 @@
         "import/no-unresolved": "off",
         "react/jsx-uses-react": "error",
         "react/jsx-uses-vars": "error",
-        "class-methods-use-this": "off"
+        "class-methods-use-this": "off",
+        "function-paren-newline": "off"
     },
     "globals": {
         "process.env": false,

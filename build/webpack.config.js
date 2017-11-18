@@ -99,7 +99,7 @@ module.exports = {
       template: resolve('src/index.html'),
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'common', // Specify the common bundle's name.
+      name: 'vendor', // Specify the common bundle's name.
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
