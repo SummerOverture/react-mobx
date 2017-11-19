@@ -1,15 +1,17 @@
-import { Spin } from 'antd';
+import { Spin, message } from 'antd';
 import React, { Component } from 'react';
-import store from '@/store/common';
 import Helmet from 'react-helmet';
-import loginState from '@/store/loginState';
 import { useStrict } from 'mobx';
 import { Provider, observer } from 'mobx-react';
 import Routes from '@/routes';
 
+// store
+import authStore from '@/store/authStore';
+import store from '@/store/common';
+
 const stores = {
+  authStore,
   commonStore: store,
-  loginStore: loginState,
 };
 
 useStrict(true);
@@ -19,27 +21,43 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: false,
       initial: false,
     };
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      stores.loginStore.setLogin(true);
+  toLogin() {
+    window.location.pathname.replace('/login');
+  }
+
+  componentWillMount() {
+    if (window.location.pathname !== '/login') {
+      authStore
+        .checkAuth()
+        .then(() => {
+          const { authState } = authStore;
+          if (authState === 401) {
+            message.error('身份校验失败，请登录');
+            this.toLogin();
+          } else if (authState === 403) {
+            message.error('身份已过期，请重新登陆');
+            this.toLogin();
+          } else if (authState !== 200) {
+            message.error('未知错误，请先登录');
+            this.toLogin();
+          }
+
+          this.setState({
+            initial: true,
+          });
+        });
+    } else {
       this.setState({
         initial: true,
       });
-    }, 1000);
+    }
   }
 
   render() {
-    const AsyncRoutes = () => {
-      if (this.state.initial) {
-        return <Routes />;
-      }
-      return <Spin />;
-    };
     return (
       <Provider { ...stores }>
         <div>
@@ -48,7 +66,9 @@ class App extends Component {
             <title>{ stores.commonStore.title }</title>
             <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
           </Helmet>
-          <AsyncRoutes />
+          {
+            this.state.initial ? <Routes /> : <Spin />
+          }
         </div>
       </Provider>
     );

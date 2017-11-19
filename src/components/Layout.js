@@ -1,32 +1,19 @@
 import { Breadcrumb, Icon, Layout, Menu } from 'antd';
 import React, { Component } from 'react';
+import style from 'style/layout.scss';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 
 const { Header, Sider, Content } = Layout;
 
-@inject('commonStore')
+@inject('authStore')
 @withRouter
 @observer
-class LayoutDemo extends Component {
+class Navbar extends Component {
   constructor(props) {
     super(props);
-    this.store = this.props.commonStore;
-    this.navigate = this.navigate.bind(this);
+    this.nickName = props.authStore.nickName;
   }
-
-  componentDidMount() {
-    this.store.setName(this.props.location.pathname);
-  }
-
-  state = {
-    collapsed: false,
-  };
-  toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  };
 
   navigate(url) {
     this.props.history.replace(url);
@@ -49,10 +36,48 @@ class LayoutDemo extends Component {
       );
     });
     const breadcrumbItems = [(
-      <Breadcrumb.Item key="home">
-        <a onClick={ () => this.navigate('home') }>Home</a>
+      <Breadcrumb.Item key="about">
+        <a onClick={ () => this.navigate('/about') }>Home</a>
       </Breadcrumb.Item>
     )].concat(extraBreadcrumbItems);
+    return (
+      <div className={ style.navbar }>
+        <div className={ style['layout-bread'] }>
+          {
+            breadcrumbItems
+          }
+        </div>
+        <div className={ style['auth-menu'] }>
+          欢迎您 { this.nickName }
+        </div>
+      </div>
+    );
+  }
+}
+
+@inject('commonStore')
+@withRouter
+@observer
+class LayoutHome extends Component {
+  constructor(props) {
+    super(props);
+    this.store = this.props.commonStore;
+  }
+
+  componentDidMount() {
+    this.store.setName(this.props.location.pathname);
+  }
+
+  state = {
+    collapsed: false,
+  };
+  toggle = () => {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  };
+
+  render() {
     return (
       <Layout>
         <Sider
@@ -60,32 +85,30 @@ class LayoutDemo extends Component {
           collapsible
           collapsed={ this.state.collapsed }
         >
-          <div className="logo"/>
+          <div className="logo" />
           <Menu theme="dark" mode="inline" defaultSelectedKeys={ ['1'] }>
             <Menu.Item key="1">
-              <Icon type="user"/>
+              <Icon type="user" />
               <span>nav 1</span>
             </Menu.Item>
             <Menu.Item key="2">
-              <Icon type="video-camera"/>
+              <Icon type="video-camera" />
               <span>nav 2</span>
             </Menu.Item>
             <Menu.Item key="3">
-              <Icon type="upload"/>
+              <Icon type="upload" />
               <span>nav 3</span>
             </Menu.Item>
           </Menu>
         </Sider>
         <Layout>
-          <Header onClick={ () => this.handleSuccess() } style={ { background: '#fff', padding: 0 } }>
+          <Header className={ style['layout-header'] } style={ { background: '#fff', padding: 0 } }>
             <Icon
               className="trigger"
               type={ this.state.collapsed ? 'menu-unfold' : 'menu-fold' }
               onClick={ this.toggle }
             />
-            <div style={ { marginLeft: '40px', display: 'inline-block' } }>
-             { breadcrumbItems }
-            </div>
+            <Navbar className={style.navbar} />
           </Header>
           <Content
             className="layout"
@@ -100,4 +123,4 @@ class LayoutDemo extends Component {
   }
 }
 
-export default LayoutDemo;
+export default LayoutHome;

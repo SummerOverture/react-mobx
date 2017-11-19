@@ -1,21 +1,44 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, Input, Button } from 'antd';
+import { Row, Col, Form, message, Input, Button } from 'antd';
 import style from '@/style/login.scss';
+import apiAuth from '@/api/auth';
+import { action, observable } from 'mobx';
 import { inject, observer } from 'mobx-react';
 
 const FormItem = Form.Item;
 
-@inject('loginStore')
+class UiStore {
+  @observable loading = false;
+
+  @action setLogin(val) {
+    this.loading = val;
+  }
+}
+
+@inject('authStore')
 @observer
 class Login extends Component {
   constructor(props) {
     super(props);
-    this.store = this.props.loginStore;
+    this.uiStore = new UiStore();
+    this.store = this.props.authStore;
   }
 
   handleClick() {
-    this.store.setLogin(true);
-    this.props.history.replace('/');
+    this.uiStore.setLogin(true);
+    apiAuth
+      .login()
+      .then((data) => {
+        this.store.setUserInfo(data);
+        this.store.setAuthState(200);
+        this.props.history.push('/about');
+      })
+      .catch(() => {
+        message.error('请求失败');
+      })
+      .then(() => {
+        this.uiStore.setLogin(false);
+      });
   }
 
   render() {
@@ -33,13 +56,13 @@ class Login extends Component {
               <div className={ style['login-form'] }>
                 <Form>
                   <FormItem>
-                    <Input type="text"/>
+                    <Input type="text" />
                   </FormItem>
                   <FormItem>
-                    <Input type="password"/>
+                    <Input type="password" />
                   </FormItem>
                   <FormItem>
-                    <Button onClick={ this.handleClick.bind(this) } type="primary">
+                    <Button loading={ this.uiStore.loading } onClick={ this.handleClick.bind(this) } type="primary">
                       LOG IN
                     </Button>
                   </FormItem>

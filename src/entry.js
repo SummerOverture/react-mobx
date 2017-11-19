@@ -10,7 +10,7 @@ if (process.env === 'development') {
   const render = (Component) => {
     ReactDOM.render(
       <AppContainer errorReporter={ ({ error }) => <RedBox error={ error } /> } warnings={ false }>
-        <Component />
+          <Component />
       </AppContainer>,
       document.getElementById('app'),
     );

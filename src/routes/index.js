@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import asyncComponent from '@/components/AsyncImport';
 import { inject, observer } from 'mobx-react';
+// import Fallback from '@/pages/fallback';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 
-@inject('loginStore')
+@inject('authStore')
 @observer
 class Routes extends Component {
   constructor(props) {
     super(props);
-    this.loginStore = props.loginStore;
+    this.authStore = props.authStore;
   }
 
   routes = [
@@ -20,10 +21,8 @@ class Routes extends Component {
       path: '/',
       exact: false,
       component: (e) => {
-        if (e.location.pathname === '/login' || !this.loginStore.login) {
-          return <Redirect to={ {
-            pathname: '/login',
-          } } />;
+        if (e.location.pathname !== '/login' && this.authStore.authState !== 200) {
+          return <Redirect to="/login" />;
         }
         const Layout = asyncComponent(() => import('@/components/Layout'));
         return <Layout { ...e } />;
@@ -65,17 +64,23 @@ class Routes extends Component {
         </Route>);
     });
     return (
-      <Switch>
-        {
-          result
-        }
-      </Switch>
+      <Router>
+        <Switch>
+          {
+            result
+          }
+        </Switch>
+      </Router>
     );
   }
 
+  getRoutes() {
+    return this.loopChildren([], this.routes);
+  }
+
   render() {
-    const AllRoute = this.loopChildren([], this.routes);
-    return (<Router>
+    const AllRoute = this.getRoutes();
+    return (
       <div>
         <ul>
           {
@@ -83,7 +88,7 @@ class Routes extends Component {
           }
         </ul>
       </div>
-    </Router>);
+    );
   }
 }
 

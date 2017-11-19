@@ -38,7 +38,7 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.js$/,
+        test: /\.js(x)?$/,
         loader: 'eslint-loader',
         enforce: 'pre',
         include: resolve('src'),

@@ -8,7 +8,7 @@ class Test extends Component {
     const data = await api.getData('/');
 
     if (data) {
-      this.props.history.replace('/login');
+      this.props.history.replace('/topics');
     }
   }
 
