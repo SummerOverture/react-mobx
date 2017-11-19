@@ -1,6 +1,6 @@
 import { Breadcrumb, Icon, Layout, Menu } from 'antd';
 import React, { Component } from 'react';
-import style from 'style/layout.scss';
+import style from 'STYLE/layout.scss';
 import { withRouter } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
 

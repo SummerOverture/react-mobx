@@ -22,7 +22,7 @@ module.exports = {
     extensions: ['.js', '.jsx', '.json'],
     alias: {
       '@': resolve('src'),
-      style: resolve('src/style'),
+      STYLE: resolve('src/style'),
       CONSTANTS: resolve('constants'),
     },
   },

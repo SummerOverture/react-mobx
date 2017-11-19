@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Form, message, Input, Button } from 'antd';
-import style from '@/style/login.scss';
+import style from 'STYLE/login.scss';
 import apiAuth from '@/api/auth';
 import { action, observable } from 'mobx';
 import { inject, observer } from 'mobx-react';
