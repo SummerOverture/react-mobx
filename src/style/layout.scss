@@ -1,17 +1,37 @@
+.logo {
+  height: 80px;
+  text-align: center;
+
+  img {
+    height: 80px;
+  }
+}
+
+.layout {
+  min-height: 100vh;
+}
+
 .layout-header {
   position: relative;
+
+  .layout-bread {
+    margin-left: 40px;
+  }
+}
+
+.auth-menu {
+  position: absolute;
+  top: 0;
+  right: 20px;
 }
 
 .navbar {
   display: inline-block;
 }
 
-.layout-bread {
-  margin-left: 40px;
-}
-
-.auth-menu {
-  position: absolute;
-  top: 0;
-  right: 10px;
+.layout-content {
+  flex: none;
+  margin: 24px 16px;
+  padding: 24px;
+  background: #fff;
 }

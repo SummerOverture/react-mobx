@@ -1,20 +1,13 @@
 const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
-const PORT = parseInt(process.env.PORT) || 9011;
 
 function resolve(dir) {
   return path.join(__dirname, '..', dir);
 }
 
 module.exports = {
-  entry: {
-    app: ['react-hot-loader/patch', './src/entry.js'],
-  },
   output: {
-    filename: '[name].js',
-    chunkFilename: './static/js/[name].chunk.js',
+    filename: './static/js/[name].[chunkhash].js',
+    chunkFilename: './static/js/[name].[chunkhash].js',
     path: resolve('/dist'),
     publicPath: '/',
   },
@@ -26,17 +19,8 @@ module.exports = {
       CONSTANTS: resolve('constants'),
     },
   },
-  devtool: '#cheap-module-source-map',
   module: {
     rules: [
-      {
-        test: /\.scss$/,
-        use: ['style-loader', 'css-loader?modules', 'sass-loader'],
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
       {
         test: /\.js(x)?$/,
         loader: 'eslint-loader',
@@ -75,33 +59,4 @@ module.exports = {
       },
     ],
   },
-  devServer: {
-    hot: true,
-    historyApiFallback: true,
-    contentBase: resolve('/static'),
-    compress: true,
-    port: PORT,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:9010',
-        pathRewrite: { '^/api': '' },
-      },
-    },
-    stats: 'minimal',
-    overlay: true,
-  },
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': '"development"',
-      ENABLE_API_PROXY: JSON.stringify(true),
-    }),
-    new HtmlWebpackPlugin({
-      template: resolve('src/index.html'),
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor', // Specify the common bundle's name.
-    }),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-  ],
 };

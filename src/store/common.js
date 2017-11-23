@@ -1,6 +1,6 @@
 import { observable, action } from 'mobx';
 
-class AuthStore {
+class Common {
   @observable title = 'login';
 
   @action
@@ -9,4 +9,4 @@ class AuthStore {
   }
 }
 
-export default new AuthStore();
+export default new Common();

@@ -8,10 +8,6 @@
     "env": {
         "node": true
     },
-    "plugins": [
-        "react",
-        "jsx"
-    ],
     "extends": "airbnb-base",
     "globals": {
         "require": true

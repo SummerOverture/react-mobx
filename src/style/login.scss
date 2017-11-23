@@ -1,14 +1,10 @@
-
 .header {
-  background-image: url('../../static/logo.svg');
+  transition: all 1s;
+  background-image: url('../assets/logo.svg');
   text-align: center;
   height: 48px;
   line-height: 48px;
   background: skyblue;
-}
-
-.login-form-wrap {
-
 }
 
 .login-form {

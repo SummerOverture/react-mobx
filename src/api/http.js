@@ -20,7 +20,6 @@ class Request {
     return axios
       .post(this.prefix + url, params)
       .then(({ data }) => {
-        console.log(data);
         message.success(JSON.stringify(data));
         return data;
       })
@@ -31,7 +30,7 @@ class Request {
           case INTERCEPTOR_STATUS.AUTHORIZED_EXPIRED:
             return store.setExpireAuth();
           default:
-            Promise.reject(response);
+            return Promise.reject(response);
         }
       });
   }

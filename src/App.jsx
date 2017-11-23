@@ -1,10 +1,9 @@
-import { Spin, message } from 'antd';
+import { message, Spin } from 'antd';
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import { useStrict } from 'mobx';
-import { Provider, observer } from 'mobx-react';
+import { observer, Provider } from 'mobx-react';
 import Routes from '@/routes';
-
 // store
 import authStore from '@/store/authStore';
 import store from '@/store/common';
@@ -25,10 +24,6 @@ class App extends Component {
     };
   }
 
-  toLogin() {
-    window.location.pathname.replace('/login');
-  }
-
   componentWillMount() {
     if (window.location.pathname !== '/login') {
       authStore
@@ -46,25 +41,35 @@ class App extends Component {
             this.toLogin();
           }
 
-          this.setState({
-            initial: true,
-          });
+          this.setInitial();
         });
     } else {
-      this.setState({
-        initial: true,
-      });
+      this.setInitial();
     }
+  }
+
+  setInitial() {
+    this.setState({
+      initial: true,
+    });
+  }
+
+  toLogin() {
+    window.location.pathname.replace('/login');
   }
 
   render() {
     return (
-      <Provider { ...stores }>
+      <Provider {...stores}>
         <div>
           <Helmet>
             <meta charSet="utf-8" />
-            <title>{ stores.commonStore.title }</title>
-            <link rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+            <title>{stores.commonStore.title}</title>
+            <link
+              rel="shortcut icon"
+              href="/favicon.ico"
+              type="image/vnd.microsoft.icon"
+            />
           </Helmet>
           {
             this.state.initial ? <Routes /> : <Spin />

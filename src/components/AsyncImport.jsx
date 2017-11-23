@@ -13,9 +13,7 @@ export default function asyncComponent(importComponent) {
       this.time = true;
       const { default: component } = await importComponent();
       if (this.time) {
-        this.setState({
-          component,
-        });
+        this.go(component);
       }
     }
 
@@ -23,9 +21,15 @@ export default function asyncComponent(importComponent) {
       this.time = false;
     }
 
+    go(component) {
+      this.setState({
+        component,
+      });
+    }
+
     render() {
       const C = this.state.component;
-      return C ? <C { ...this.props } /> : null;
+      return C ? <C {...this.props} /> : null;
     }
   }
 

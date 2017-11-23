@@ -1,12 +1,16 @@
 {
     "presets": [
-        "es2015",
+        [
+            "es2015",
+            {
+                "modules": false
+            }
+        ],
         "react",
         "stage-2"
     ],
     "plugins": [
         "transform-decorators-legacy",
-        "react-hot-loader/babel",
         [
             "import",
             {
@@ -15,5 +19,12 @@
             }
         ]
     ],
+    "env": {
+        "development": {
+            "plugins": [
+                "react-hot-loader/babel"
+            ]
+        }
+    },
     "comments": false
 }

@@ -1,36 +1,40 @@
 {
-    "parser": "babel-eslint",
-    "parserOptions": {
-        "ecmaVersion": 7,
-        "sourceType": "module",
-        "ecmaFeatures": {
-            "jsx": true
-        }
-    },
-    "plugins": [
-        "react"
-    ],
-    "env": {
-        "browser": true
-    },
-    "rules": {
-        "import/no-extraneous-dependencies": "off",
-        "import/extensions": "off",
-        "import/no-unresolved": "off",
-        "react/jsx-uses-react": "error",
-        "react/jsx-uses-vars": "error",
-        "class-methods-use-this": "off",
-        "function-paren-newline": "off"
-    },
-    "globals": {
-        "process.env": false,
-        "ENABLE_API_PROXY": false
-    },
-    "settings": {
-        "import/resolver": {
-            "webpack": {
-                "config": "build/webpack.config.js"
-            }
-        }
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
     }
+  },
+  "env": {
+    "browser": true
+  },
+  "extends": [
+    "eslint-config-airbnb"
+  ],
+  "rules": {
+    "arrow-parens": [
+      "error",
+      "always",
+      {
+        "requireForBlockBody": true
+      }
+    ],
+    "import/no-extraneous-dependencies": "off",
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "class-methods-use-this": "off",
+    "function-paren-newline": "off",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "react/forbid-prop-types": "off"
+  },
+  "globals": {
+    "process.env": false,
+    "ENABLE_API_PROXY": false
+  }
 }

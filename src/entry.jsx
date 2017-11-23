@@ -1,16 +1,21 @@
+/* eslint-disable global-require */
 import 'babel-polyfill';
 import ReactDOM from 'react-dom';
 import React from 'react';
-import RedBox from 'redbox-react';
-import { AppContainer } from 'react-hot-loader';
-import './style/app.scss';
+import 'STYLE/app.scss';
 import App from './App';
 
 if (process.env === 'development') {
+  const RedBox = require('redbox-react').default;
+  const { AppContainer } = require('react-hot-loader');
+
   const render = (Component) => {
     ReactDOM.render(
-      <AppContainer errorReporter={ ({ error }) => <RedBox error={ error } /> } warnings={ false }>
-          <Component />
+      <AppContainer
+        errorReporter={({ error }) => <RedBox error={error} />}
+        warnings={false}
+      >
+        <Component />
       </AppContainer>,
       document.getElementById('app'),
     );

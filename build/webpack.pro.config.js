@@ -1,5 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
+const baseConfig = require('./webpack.base.config');
+const merge = require('webpack-merge');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -16,23 +18,9 @@ const commonLazyChunkName = [
   'rc',
 ];
 
-module.exports = {
+const webpackProConfig = merge(baseConfig, {
   entry: {
-    app: './src/entry.js',
-  },
-  output: {
-    filename: './static/js/[name].[chunkhash].js',
-    chunkFilename: './static/js/[name].[chunkhash].js',
-    path: resolve('/dist'),
-    publicPath: '/',
-  },
-  resolve: {
-    extensions: ['.js', '.jsx', '.json'],
-    alias: {
-      '@': resolve('src'),
-      STYLE: resolve('src/style'),
-      CONSTANTS: resolve('constants'),
-    },
+    app: './src/entry.jsx',
   },
   devtool: '#source-map',
   module: {
@@ -49,42 +37,15 @@ module.exports = {
         exclude: /node_modules|dist/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: ['css-loader?modules', 'sass-loader'],
+          use: ['css-loader?modules', 'postcss-loader', 'sass-loader'],
         }),
-      },
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules|dist/,
-        use: [{
-          loader: 'babel-loader',
-        }],
-      },
-      {
-        test: /\.json$/,
-        loader: 'json-loader',
-      },
-      {
-        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
-        loader: 'url-loader',
-        query: {
-          limit: 10000,
-          name: 'static/img/[name].[hash:7].[ext]',
-        },
-      },
-      {
-        test: /\.(woff|woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'url-loader',
-        query: {
-          limit: 10000,
-          name: 'static/fonts/[name].[hash:7].[ext]',
-        },
       },
     ],
   },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': '"production"',
-      ENABLE_API_PROXY: JSON.stringify(false),
+      ENABLE_API_PROXY: false,
     }),
     new CleanWebpackPlugin(['dist'], {
       root: resolve(''),
@@ -121,8 +82,13 @@ module.exports = {
         to: resolve('dist'),
       },
     ]),
-    process.env.REPORT ? new BundleAnalyzerPlugin({
-      analyzerPort: 8899,
-    }) : '',
   ],
-};
+});
+
+if (process.env.REPORT) {
+  webpackProConfig.plugins.push(new BundleAnalyzerPlugin({
+    analyzerPort: 8899,
+  }));
+}
+
+module.exports = webpackProConfig;

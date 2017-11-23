@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, message, Input, Button } from 'antd';
+import PropTypes from 'prop-types';
+import { Button, Col, Form, Input, message, Row } from 'antd';
 import style from 'STYLE/login.scss';
-import apiAuth from '@/api/auth';
 import { action, observable } from 'mobx';
 import { inject, observer } from 'mobx-react';
+import apiAuth from '@/api/auth';
 
 const FormItem = Form.Item;
 
 class UiStore {
   @observable loading = false;
 
-  @action setLogin(val) {
+  @action
+  setLogin(val) {
     this.loading = val;
   }
 }
@@ -20,8 +22,9 @@ class UiStore {
 class Login extends Component {
   constructor(props) {
     super(props);
+    this.handleClick = this.handleClick.bind(this);
     this.uiStore = new UiStore();
-    this.store = this.props.authStore;
+    this.store = props.authStore;
   }
 
   handleClick() {
@@ -33,8 +36,8 @@ class Login extends Component {
         this.store.setAuthState(200);
         this.props.history.push('/about');
       })
-      .catch(() => {
-        message.error('请求失败');
+      .catch((e) => {
+        message.error(JSON.stringify(e));
       })
       .then(() => {
         this.uiStore.setLogin(false);
@@ -44,16 +47,16 @@ class Login extends Component {
   render() {
     return (
       <div className="container">
-        <div className={ style.header }>
-          PLEASE LOG IN
+        <div className={style.header}>
+          PLEASE LOG IN122132312eqw
         </div>
         <div className="body">
           <Row>
-            <Col span={ 12 }>
+            <Col span={12}>
               this is left side
             </Col>
-            <Col span={ 12 }>
-              <div className={ style['login-form'] }>
+            <Col span={12}>
+              <div className={style['login-form']}>
                 <Form>
                   <FormItem>
                     <Input type="text" />
@@ -62,7 +65,11 @@ class Login extends Component {
                     <Input type="password" />
                   </FormItem>
                   <FormItem>
-                    <Button loading={ this.uiStore.loading } onClick={ this.handleClick.bind(this) } type="primary">
+                    <Button
+                      type="primary"
+                      loading={this.uiStore.loading}
+                      onClick={this.handleClick}
+                    >
                       LOG IN
                     </Button>
                   </FormItem>
@@ -75,5 +82,17 @@ class Login extends Component {
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.object,
+};
+
+Login.wrappedComponent.propTypes = {
+  authStore: PropTypes.object.isRequired,
+};
+
+Login.defaultProps = {
+  history: {},
+};
 
 export default Login;
