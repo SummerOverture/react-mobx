@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
+import PageHeader from 'SRC/components/PageHeader';
+
 import Panel from './Panel';
 
 const T = () => <div>hello TITLE</div>;
@@ -33,19 +35,21 @@ class About extends Component {
   render() {
     return (
       <div>
-        WELCOME TO ABOUT PAGE
-        <Panel
-          length={this.state.a}
-          title={<T />}
-        >
-          <div>
-            {
-              this.state.a.map((item, index) => (
-                <div key={item}>hello kitty{index}</div>
-              ))
-            }
-          </div>
-        </Panel>
+        <PageHeader />
+        <div className="layout-content">
+          <Panel
+            length={this.state.a}
+            title={<T />}
+          >
+            <div>
+              {
+                this.state.a.map((item, index) => (
+                  <div key={item}>hello kitty{index}</div>
+                ))
+              }
+            </div>
+          </Panel>
+        </div>
       </div>
     );
   }

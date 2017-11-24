@@ -28,7 +28,7 @@ class Routes extends Component {
           path={item.path}
           exact={typeof item.exact === 'undefined' ? true : item.exact}
           render={(props) => (
-            <item.component {...props} authStore={this.authStore}>
+            <item.component {...props} authStore={this.authStore} bread={item.bread}>
               {child}
             </item.component>)}
         />);

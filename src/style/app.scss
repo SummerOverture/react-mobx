@@ -4,6 +4,10 @@
   text-align: center;
 }
 
+:global(.layout-content) {
+  padding: 16px;
+}
+
 :global(.text-left) {
   text-align: left;
 }

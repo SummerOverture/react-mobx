@@ -11,14 +11,6 @@
   min-height: 100vh;
 }
 
-.layout-header {
-  position: relative;
-
-  .layout-bread {
-    margin-left: 40px;
-  }
-}
-
 .auth-menu {
   position: absolute;
   top: 0;
@@ -31,5 +23,4 @@
 
 .layout-content {
   flex: none;
-  margin: 24px 16px;
 }

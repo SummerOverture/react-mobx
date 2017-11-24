@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Breadcrumb } from 'antd';
+import { Breadcrumb, Card } from 'antd';
 import PropTypes from 'prop-types';
 import routes from 'SRC/routes/routes';
 import { withRouter } from 'react-router-dom';
+
+import style from './pageHeader.scss';
 
 @withRouter
 class PageHeader extends Component {
@@ -56,7 +58,12 @@ class PageHeader extends Component {
   }
 
   render() {
-    return this.getAllHistory();
+    const Bread = this.getAllHistory();
+    return (
+      <Card noHovering className={style['content-page-header']}>
+        { Bread }
+      </Card>
+    );
   }
 }
 

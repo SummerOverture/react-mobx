@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Icon, Menu } from 'antd';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+// import { withRouter } from 'react-router-dom';
 
 const { SubMenu } = Menu;
 
@@ -15,23 +14,19 @@ const menus = [{
   children: [
     {
       name: '产品列表',
-      url: '/product/index',
       icon: 'minus-square-o',
     }, {
       name: '共享产品列表',
-      url: '/about',
       icon: 'info-circle-0',
     },
   ],
 }];
 
-@withRouter
 class Menus extends Component {
   constructor(props) {
     super(props);
-    this.history = props.history;
+    console.log(props);
   }
-
   getAllMenus() {
     return menus.map((item, index) => {
       const key = index + Math.random();
@@ -50,7 +45,7 @@ class Menus extends Component {
             return (
               <Menu.Item key={cKey}>
                 <Icon type={_item.type} />
-                <span onClick={() => this.handleClick(_item)}>{_item.name}</span>
+                <span onClick={() => this.handleClick(item)}>{_item.name}</span>
               </Menu.Item>
             );
           })}
@@ -61,27 +56,12 @@ class Menus extends Component {
 
   handleClick(item) {
     console.log(item);
-    this.history.replace(item.url);
   }
 
   render() {
-    const allMenus = this.getAllMenus();
-    return (
-      <div>
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={['1']}
-        >
-          {allMenus}
-        </Menu>
-      </div>
-    );
+    const A = this.getAllMenus();
+    return <div><A /></div>;
   }
 }
-
-Menus.WrappedComponent.propTypes = {
-  history: PropTypes.object.isRequired,
-};
 
 export default Menus;
