@@ -24,6 +24,7 @@
     "import/no-extraneous-dependencies": "off",
     "import/extensions": "off",
     "import/no-unresolved": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
     "class-methods-use-this": "off",
     "function-paren-newline": "off",
     "react/jsx-uses-react": "error",

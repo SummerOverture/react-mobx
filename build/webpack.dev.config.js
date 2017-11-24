@@ -12,7 +12,7 @@ function resolve(dir) {
 
 const webpackDevConfig = merge.smart(baseConfig, {
   entry: {
-    app: ['react-hot-loader/patch', './src/entry.jsx'],
+    app: ['react-hot-loader/patch', './src/entry.js'],
   },
   output: {
     filename: './static/js/[name].js',
@@ -34,6 +34,9 @@ const webpackDevConfig = merge.smart(baseConfig, {
   devServer: {
     hot: true,
     historyApiFallback: true,
+    watchOptions: {
+      poll: true,
+    },
     contentBase: resolve('/static'),
     compress: true,
     port: PORT,

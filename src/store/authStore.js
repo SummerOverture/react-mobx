@@ -1,5 +1,5 @@
 import { action, observable } from 'mobx';
-import auth from '@/api/auth';
+import auth from 'SRC/api/auth';
 
 class Auth {
   @observable nickName = '';

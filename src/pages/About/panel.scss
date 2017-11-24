@@ -1,0 +1,19 @@
+.panel {
+  position: relative;
+  overflow: hidden;
+  transition: height .2s;
+}
+
+.panel-more {
+  width: 100%;
+  position: absolute;
+  box-shadow: inset 0 -15px 30px #fff;
+  bottom: 0;
+  height: 30px;
+  text-align: center;
+
+  &:hover {
+    color: #3399ff;
+    cursor: pointer;
+  }
+}

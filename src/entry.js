@@ -2,7 +2,7 @@
 import 'babel-polyfill';
 import ReactDOM from 'react-dom';
 import React from 'react';
-import 'STYLE/app.scss';
+import './style/app.scss';
 import App from './App';
 
 if (process.env === 'development') {

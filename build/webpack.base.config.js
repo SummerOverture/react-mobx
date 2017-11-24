@@ -14,8 +14,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
     alias: {
-      '@': resolve('src'),
-      STYLE: resolve('src/style'),
+      SRC: resolve('src'),
       CONSTANTS: resolve('constants'),
     },
   },
@@ -33,9 +32,11 @@ module.exports = {
       {
         test: /\.js(x)?$/,
         exclude: /node_modules|dist/,
-        use: [{
-          loader: 'babel-loader',
-        }],
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+        ],
       },
       {
         test: /\.json$/,

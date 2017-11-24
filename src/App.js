@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import { useStrict } from 'mobx';
 import { observer, Provider } from 'mobx-react';
-import Routes from '@/routes';
+import Routes from 'SRC/routes';
 // store
-import authStore from '@/store/authStore';
-import store from '@/store/common';
+import authStore from 'SRC/store/authStore';
+import store from 'SRC/store/common';
 
 const stores = {
   authStore,

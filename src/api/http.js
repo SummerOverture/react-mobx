@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { message } from 'antd';
-import store from '@/store/authStore';
+import store from 'SRC/store/authStore';
 
 const INTERCEPTOR_STATUS = {
   UNAUTHORIZED: 401,

@@ -20,7 +20,7 @@ const commonLazyChunkName = [
 
 const webpackProConfig = merge(baseConfig, {
   entry: {
-    app: './src/entry.jsx',
+    app: './src/entry.js',
   },
   devtool: '#source-map',
   module: {

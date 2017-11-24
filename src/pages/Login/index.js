@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Col, Form, Input, message, Row } from 'antd';
-import style from 'STYLE/login.scss';
 import { action, observable } from 'mobx';
-import { inject, observer } from 'mobx-react';
-import apiAuth from '@/api/auth';
+import apiAuth from 'SRC/api/auth';
+import style from './login.scss';
 
 const FormItem = Form.Item;
 
@@ -17,8 +16,6 @@ class UiStore {
   }
 }
 
-@inject('authStore')
-@observer
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -85,9 +82,6 @@ class Login extends Component {
 
 Login.propTypes = {
   history: PropTypes.object,
-};
-
-Login.wrappedComponent.propTypes = {
   authStore: PropTypes.object.isRequired,
 };
 

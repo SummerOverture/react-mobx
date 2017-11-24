@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import asyncComponent from '@/components/AsyncImport';
+import asyncComponent from 'SRC/components/AsyncImport';
 import { inject, observer } from 'mobx-react';
-// import Fallback from '@/pages/fallback';
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+// import Fallback from 'SRC/pages/fallback';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
+import routes from './routes';
 
 @inject('authStore')
 @observer
@@ -26,7 +28,7 @@ class Routes extends Component {
           path={item.path}
           exact={typeof item.exact === 'undefined' ? true : item.exact}
           render={(props) => (
-            <item.component {...props}>
+            <item.component {...props} authStore={this.authStore}>
               {child}
             </item.component>)}
         />);
@@ -37,37 +39,14 @@ class Routes extends Component {
           {
             result
           }
+          <Route component={asyncComponent(() => import('SRC/pages/Exception/404'))} />
         </Switch>
       </Router>
     );
   }
 
-  routes = [
-    {
-      path: '/login',
-      component: asyncComponent(() => import('@/pages/login')),
-    },
-    {
-      path: '/',
-      exact: false,
-      component: (e) => {
-        if (e.location.pathname !== '/login' && this.authStore.authState !== 200) {
-          return <Redirect to="/login" />;
-        }
-        const Layout = asyncComponent(() => import('@/components/Layout/MainView'));
-        return <Layout {...e} />;
-      },
-      route: [
-        {
-          path: '/about',
-          component: () => <div>WELCOME HOME PAGE</div>,
-        },
-      ],
-    },
-  ];
-
   render() {
-    return this.loopChildren([], this.routes);
+    return this.loopChildren([], routes);
   }
 }
 

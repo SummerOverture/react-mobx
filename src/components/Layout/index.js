@@ -1,11 +1,12 @@
-import { Layout } from 'antd';
+import { Layout, Card } from 'antd';
 import React from 'react';
-import style from 'STYLE/layout.scss';
 import PropTypes from 'prop-types';
+import logo from 'SRC/assets/logo.svg';
 
-import logo from '@/assets/logo.svg';
+import style from './layout.scss';
 
 import Navbar from './Navbar';
+import PageHeader from './PageHeader';
 import SiderMenu from './SiderMenu';
 
 const { Header, Sider, Content } = Layout;
@@ -35,8 +36,13 @@ const LayoutHome = (props) => (
       >
         <Navbar className={style.navbar} />
       </Header>
-      <Content className={style['layout-content']}>
-        {props.children}
+      <Content className={style['layout-content-container']}>
+        <Card className={style['content-page-header']}>
+          <PageHeader />
+        </Card>
+        <div className={style['layout-content']}>
+          {props.children}
+        </div>
       </Content>
     </Layout>
   </Layout>
