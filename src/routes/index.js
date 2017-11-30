@@ -1,11 +1,36 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import asyncComponent from 'SRC/components/AsyncImport';
 import { inject, observer } from 'mobx-react';
-// import Fallback from 'SRC/pages/fallback';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import routes from './routes';
+import deepCopy from 'SRC/utils/deepCopy';
+import getPlainNode from 'SRC/utils/utils';
+import routeData from './routes';
+import asyncComponent from '../components/AsyncImport';
+
+function getRouteData(navData, path) {
+  if (!navData.some((item) => item.layout === path) ||
+    !(navData.filter((item) => item.layout === path)[0].children)) {
+    return null;
+  }
+  const route = deepCopy(navData.filter((item) => item.layout === path)[0]);
+  const nodeList = getPlainNode(route.children);
+  return nodeList;
+}
+
+function getLayout(navData, path) {
+  if (!navData.some((item) => item.layout === path) ||
+    !(navData.filter((item) => item.layout === path)[0].children)) {
+    return null;
+  }
+  const route = navData.filter((item) => item.layout === path)[0];
+  return {
+    component: route.component,
+    layout: route.layout,
+    name: route.name,
+    path: route.path,
+  };
+}
 
 @inject('authStore')
 @observer
@@ -13,40 +38,28 @@ class Routes extends Component {
   constructor(props) {
     super(props);
     this.authStore = props.authStore;
-  }
-
-  loopChildren(result = [], route) {
-    route.forEach((item, index) => {
-      let child = null;
-      const key = index + Math.random();
-      if (item.route && item.route.length) {
-        child = this.loopChildren([], item.route);
-      }
-      result.push(
-        <Route
-          key={key}
-          path={item.path}
-          exact={typeof item.exact === 'undefined' ? true : item.exact}
-          render={(props) => (
-            <item.component {...props} authStore={this.authStore} bread={item.bread}>
-              {child}
-            </item.component>)}
-        />);
-    });
-    return (
-      <Router>
-        <Switch>
-          {
-            result
-          }
-          <Route component={asyncComponent(() => import('SRC/pages/Exception/404'))} />
-        </Switch>
-      </Router>
-    );
+    this.passProps = {
+      routeData,
+      getRouteData: (path) => getRouteData(routeData, path),
+    };
   }
 
   render() {
-    return this.loopChildren([], routes);
+    const Layout = getLayout(routeData, 'LayoutHome').component;
+    return (
+      <Router>
+        <Switch>
+          <Route
+            path="/login/:params"
+            component={asyncComponent(() => import('SRC/pages/Login'))}
+          />
+          <Route
+            path="/"
+            render={(props) => <Layout {...props} {...this.passProps} />}
+          />
+        </Switch>
+      </Router>
+    );
   }
 }
 

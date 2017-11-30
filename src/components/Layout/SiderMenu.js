@@ -1,79 +1,76 @@
 import React, { Component } from 'react';
 import { Icon, Menu } from 'antd';
 import PropTypes from 'prop-types';
+import { inject, observer } from 'mobx-react';
 import { withRouter } from 'react-router-dom';
+import { menus, peersMenus } from './menuConfig';
 
 const { SubMenu } = Menu;
 
-const menus = [{
-  name: '首页',
-  icon: 'pie-chart',
-  url: '/dashboard',
-}, {
-  name: '产品',
-  icon: 'plus-square-o',
-  children: [
-    {
-      name: '产品列表',
-      url: '/product/index',
-      icon: 'minus-square-o',
-    }, {
-      name: '共享产品列表',
-      url: '/about',
-      icon: 'info-circle-0',
-    },
-  ],
-}];
+const allMenus = () => menus.map((item) => {
+  if (!item.children) {
+    return (
+      <Menu.Item
+        key={item.url}
+      >
+        <Icon type={item.icon} />
+        <span>{item.name}</span>
+      </Menu.Item>
+    );
+  }
+  return (
+    <SubMenu
+      key={item.url}
+      title={<span><Icon type={item.icon} /><span>{item.name}</span></span>}
+    >
+      {item.children.map((_item) => (
+        <Menu.Item
+          key={_item.url}
+        >
+          <Icon type={_item.icon} />
+          <span>{_item.name}</span>
+        </Menu.Item>
+      ))}
+    </SubMenu>
+  );
+});
 
+@inject('commonStore', 'queryStore')
 @withRouter
+@observer
 class Menus extends Component {
   constructor(props) {
     super(props);
     this.history = props.history;
+    this.store = props.commonStore;
+    this.peersMenus = peersMenus;
   }
 
-  getAllMenus() {
-    return menus.map((item, index) => {
-      const key = index + Math.random();
-      if (!item.children) {
-        return (
-          <Menu.Item key={key}>
-            <Icon type={item.type} />
-            <span onClick={() => this.handleClick(item)}>{item.name}</span>
-          </Menu.Item>
-        );
-      }
-      return (
-        <SubMenu key={key} title={<span><Icon type={item.type} /><span>{item.name}</span></span>}>
-          {item.children.map((_item, i) => {
-            const cKey = key + i;
-            return (
-              <Menu.Item key={cKey}>
-                <Icon type={_item.type} />
-                <span onClick={() => this.handleClick(_item)}>{_item.name}</span>
-              </Menu.Item>
-            );
-          })}
-        </SubMenu>
-      );
-    });
+  componentWillMount() {
+    const selectMenu = this.peersMenus.find((item) => item.url === window.location.pathname) || {
+      url: '/',
+      name: '微点开放平台',
+      openKeys: [],
+    };
+    this.store.setSelectedMenu(selectMenu);
   }
 
-  handleClick(item) {
-    console.log(item);
-    this.history.replace(item.url);
+  handleClick(a, url) {
+    this.props.queryStore.clearQuery();
+    this.history.push(url);
   }
 
   render() {
-    const allMenus = this.getAllMenus();
     return (
       <div>
         <Menu
+          onSelect={({ item, key }) => this.handleClick(item, key)}
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={['1']}
+          defaultOpenKeys={this.store.selectMenu.openKeys.slice()}
+          defaultSelectedKeys={[this.store.selectMenu.url]}
         >
-          {allMenus}
+          {allMenus()}
         </Menu>
       </div>
     );
@@ -82,6 +79,8 @@ class Menus extends Component {
 
 Menus.WrappedComponent.propTypes = {
   history: PropTypes.object.isRequired,
+  queryStore: PropTypes.object.isRequired,
+  commonStore: PropTypes.object.isRequired,
 };
 
 export default Menus;

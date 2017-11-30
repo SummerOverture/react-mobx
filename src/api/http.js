@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { message } from 'antd';
+import { notification } from 'antd';
 import store from 'SRC/store/authStore';
 
 const INTERCEPTOR_STATUS = {
@@ -16,13 +16,10 @@ class Request {
     return axios.get(uri);
   }
 
-  post({ url, params }) {
+  post({ url, data }) {
     return axios
-      .post(this.prefix + url, params)
-      .then(({ data }) => {
-        message.success(JSON.stringify(data));
-        return data;
-      })
+      .post(this.prefix + url, data)
+      .then((response) => response.data)
       .catch(({ response }) => {
         switch (response.status) {
           case INTERCEPTOR_STATUS.UNAUTHORIZED:
@@ -30,6 +27,10 @@ class Request {
           case INTERCEPTOR_STATUS.AUTHORIZED_EXPIRED:
             return store.setExpireAuth();
           default:
+            notification.error({
+              message: `请求错误 ${response.status}: ${response.url}`,
+              description: response.statusText,
+            });
             return Promise.reject(response);
         }
       });

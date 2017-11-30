@@ -1,29 +1,29 @@
-import { Redirect } from 'react-router-dom';
 import React from 'react';
 import asyncComponent from 'SRC/components/AsyncImport';
+import NoAuth from 'SRC/pages/Exception/403';
 
 export default [
   {
-    path: '/login',
-    name: '登录',
-    component: asyncComponent(() => import('SRC/pages/login')),
-  },
-  {
     path: '/',
     exact: false,
-    name: '首页',
-    component: (data) => {
-      if (data.location.pathname !== '/login' && data.authStore.authState !== 200) {
-        return <Redirect to="/login" />;
-      }
-      const Layout = asyncComponent(() => import('SRC/components/Layout'));
-      return <Layout {...data} />;
-    },
-    route: [
+    layout: 'LayoutHome',
+    component: asyncComponent(() => import('SRC/components/Layout')),
+    children: [
+      {
+        path: '/403',
+        component: () => <NoAuth />,
+      },
+      {
+        path: '/dashboard',
+        component: asyncComponent(() => import('SRC/pages/Dashboard')),
+      },
       {
         path: '/about',
-        name: '关于',
         component: asyncComponent(() => import('SRC/pages/About')),
+      },
+      {
+        path: '/product/index',
+        component: asyncComponent(() => import('SRC/pages/Product')),
       },
     ],
   },

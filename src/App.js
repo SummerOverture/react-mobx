@@ -6,11 +6,15 @@ import { observer, Provider } from 'mobx-react';
 import Routes from 'SRC/routes';
 // store
 import authStore from 'SRC/store/authStore';
-import store from 'SRC/store/common';
+import commonStore from 'SRC/store/menu';
+import queryStore from 'SRC/store/queryStore';
+import productStore from 'SRC/store/productStore';
 
 const stores = {
   authStore,
-  commonStore: store,
+  productStore,
+  queryStore,
+  commonStore,
 };
 
 useStrict(true);
@@ -64,7 +68,7 @@ class App extends Component {
         <div>
           <Helmet>
             <meta charSet="utf-8" />
-            <title>{stores.commonStore.title}</title>
+            <title>{stores.commonStore.selectMenu.name}</title>
             <link
               rel="shortcut icon"
               href="/favicon.ico"

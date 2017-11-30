@@ -8,6 +8,20 @@
   padding: 16px;
 }
 
+:global(.search-form .form-item-input) {
+  width: 200px;
+}
+
+:global(.global-spin.c-global-spin) {
+  position: absolute;
+  left: 49%;
+  top: 49%;
+}
+
+:global(.table-wrapper) {
+  margin-top: 20px;
+}
+
 :global(.text-left) {
   text-align: left;
 }
@@ -22,6 +36,7 @@
 
 body {
   background: #ededed;
+  min-width: 960px;
 
   .App-logo {
     height: 50px;

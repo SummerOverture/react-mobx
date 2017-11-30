@@ -14,6 +14,9 @@ class Navbar extends Component {
     this.nickName = props.authStore.nickName;
   }
 
+  componentDidMount() {
+  }
+
   navigate(url) {
     this.props.history.replace(url);
   }
@@ -29,14 +32,9 @@ class Navbar extends Component {
   }
 }
 
-Navbar.propTypes = {
-  authStore: PropTypes.object,
-  history: PropTypes.object,
-};
-
-Navbar.defaultProps = {
-  authStore: {},
-  history: {},
+Navbar.WrappedComponent.propTypes = {
+  authStore: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 export default Navbar;

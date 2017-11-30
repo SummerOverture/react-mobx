@@ -6,6 +6,7 @@ class Exception extends Component {
   constructor(props) {
     super(props);
     this.type = props.type;
+    this.message = props.message;
   }
 
   render() {
@@ -14,6 +15,8 @@ class Exception extends Component {
         <h2 className={style.font}>
           {this.type}
         </h2>
+
+        <span>{this.message}</span>
       </div>
     );
   }
@@ -21,6 +24,11 @@ class Exception extends Component {
 
 Exception.propTypes = {
   type: PropTypes.string.isRequired,
+  message: PropTypes.string,
+};
+
+Exception.defaultProps = {
+  message: '',
 };
 
 export default Exception;

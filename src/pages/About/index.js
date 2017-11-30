@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react';
 import PageHeader from 'SRC/components/PageHeader';
 
 import Panel from './Panel';
 
 const T = () => <div>hello TITLE</div>;
 
-@inject('authStore')
-@observer
+
 class About extends Component {
   constructor(props) {
     super(props);

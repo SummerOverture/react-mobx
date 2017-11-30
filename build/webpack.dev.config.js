@@ -34,9 +34,7 @@ const webpackDevConfig = merge.smart(baseConfig, {
   devServer: {
     hot: true,
     historyApiFallback: true,
-    watchOptions: {
-      poll: true,
-    },
+    clientLogLevel: 'none',
     contentBase: resolve('/static'),
     compress: true,
     port: PORT,
