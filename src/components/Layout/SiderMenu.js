@@ -49,7 +49,7 @@ class Menus extends Component {
   componentWillMount() {
     const selectMenu = this.peersMenus.find((item) => item.url === window.location.pathname) || {
       url: '/',
-      name: '微点开放平台',
+      name: 'react-mobx',
       openKeys: [],
     };
     this.store.setSelectedMenu(selectMenu);
