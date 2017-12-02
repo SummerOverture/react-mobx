@@ -59,7 +59,7 @@ class App extends Component {
   }
 
   toLogin() {
-    window.location.pathname.replace('/login');
+    window.location.replace('/login');
   }
 
   render() {

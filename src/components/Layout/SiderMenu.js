@@ -47,6 +47,10 @@ class Menus extends Component {
   }
 
   componentWillMount() {
+    this.setMenu();
+  }
+
+  setMenu() {
     const selectMenu = this.peersMenus.find((item) => item.url === window.location.pathname) || {
       url: '/',
       name: 'react-mobx',
@@ -58,6 +62,7 @@ class Menus extends Component {
   handleClick(a, url) {
     this.props.queryStore.clearQuery();
     this.history.push(url);
+    this.setMenu();
   }
 
   render() {

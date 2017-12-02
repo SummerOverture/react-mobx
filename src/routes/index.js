@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 
 import deepCopy from 'SRC/utils/deepCopy';
 import getPlainNode from 'SRC/utils/utils';
@@ -50,12 +50,17 @@ class Routes extends Component {
       <Router>
         <Switch>
           <Route
-            path="/login/:params"
+            path="/login"
             component={asyncComponent(() => import('SRC/pages/Login'))}
           />
           <Route
             path="/"
-            render={(props) => <Layout {...props} {...this.passProps} />}
+            render={(props) => {
+              if (this.authStore.authState === 200) {
+                return <Layout {...props} {...this.passProps} />;
+              }
+              return <Redirect to="/login" />;
+            }}
           />
         </Switch>
       </Router>
