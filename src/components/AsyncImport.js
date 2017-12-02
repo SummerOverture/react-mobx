@@ -26,10 +26,15 @@ export default function asyncComponent(importComponent) {
     async componentDidMount() {
       this.time = true;
       this.setSpin();
-      const result = await checkAuth(this.props.location.pathname);
+
+      let auth = true;
+
+      if (this.props.match.url === this.props.location.pathname) {
+        auth = await checkAuth(this.props.location.pathname);
+      }
 
       let component = null;
-      if (result) {
+      if (auth) {
         const { default: Comp } = await importComponent();
         component = Comp;
       } else {
@@ -65,6 +70,7 @@ export default function asyncComponent(importComponent) {
 
   AsyncComponent.WrappedComponent.propTypes = {
     location: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
   };
 
   return AsyncComponent;
