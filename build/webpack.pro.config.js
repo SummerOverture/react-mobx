@@ -54,15 +54,7 @@ const webpackProConfig = merge(baseConfig, {
       template: resolve('src/index.html'),
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor', // Specify the common bundle's name.
-      minChunks: ({ resource }, count) => (
-        (resource &&
-          resource.indexOf('node_modules') >= 0 &&
-          resource.match(/\.js$/)) || count >= 2
-      ),
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      async: true,
+      async: 'asyncCommon',
       minChunks: ({ resource }, count) => (
         resource &&
         resource.includes('node_modules') &&
@@ -70,7 +62,6 @@ const webpackProConfig = merge(baseConfig, {
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
-      chunks: ['vendor'],
     }),
     new ExtractTextPlugin({
       filename: 'static/css/style.css',

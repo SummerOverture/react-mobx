@@ -3,6 +3,7 @@
   "scripts": {
     "dev-front": "cross-env PORT=9011 webpack-dev-server --config ./build/webpack.dev.config.js",
     "dev-back": "cross-env NODE_ENV=development PORT=9010 node ./app.js",
+    "pro-back": "cross-env NODE_ENV=production PORT=9111 node ./app.js",
     "build:pro": "cross-env NODE_ENV=production webpack --config ./build/webpack.pro.config.js -p",
     "build:report": "cross-env REPORT=true npm run build:pro"
   },
