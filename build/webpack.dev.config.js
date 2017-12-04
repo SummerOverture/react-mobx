@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const baseConfig = require('./webpack.base.config');
+const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 
@@ -33,8 +34,9 @@ const webpackDevConfig = merge.smart(baseConfig, {
   devtool: 'cheap-module-source-map',
   devServer: {
     hot: true,
+    clientLogLevel: 'warning',
     historyApiFallback: true,
-    clientLogLevel: 'none',
+    quiet: true,
     contentBase: resolve('/static'),
     compress: true,
     port: PORT,
@@ -45,7 +47,6 @@ const webpackDevConfig = merge.smart(baseConfig, {
       },
     },
     open: true,
-    stats: 'minimal',
     overlay: true,
   },
   plugins: [
@@ -61,6 +62,7 @@ const webpackDevConfig = merge.smart(baseConfig, {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
+    new FriendlyErrorsPlugin(),
   ],
 });
 

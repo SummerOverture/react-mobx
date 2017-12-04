@@ -42,6 +42,13 @@ const webpackProConfig = merge(baseConfig, {
       },
     ],
   },
+  stats: {
+    colors: true,
+    modules: false,
+    children: false,
+    chunks: false,
+    chunkModules: false,
+  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': '"production"',
